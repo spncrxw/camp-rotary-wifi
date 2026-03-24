@@ -1,5 +1,6 @@
 import { auth0 } from "@/lib/auth0";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 type GuestContext = {
   ap?: string;
@@ -25,25 +26,7 @@ export default async function Home() {
   const guest = await getGuestContext();
 
   if (!session) {
-    return (
-      <main className="min-h-screen bg-slate-950 text-white px-6 py-12">
-        <div className="mx-auto max-w-xl rounded-2xl border border-white/10 bg-white/5 p-8 shadow-xl">
-          <h1 className="text-3xl font-semibold">Guest Wi-Fi Portal</h1>
-          <p className="mt-3 text-white/80">
-            Sign in to continue to the guest network.
-          </p>
-
-          <div className="mt-6">
-            <a
-              href="/auth/login"
-              className="inline-flex rounded-xl bg-white px-4 py-2 font-medium text-slate-900"
-            >
-              Continue with Auth0
-            </a>
-          </div>
-        </div>
-      </main>
-    );
+    redirect("/auth/login");
   }
 
   if (guest) {
